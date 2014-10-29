@@ -36,7 +36,6 @@ import java.util.Set;
 
 /**
  * @author stephenc
- * @since 14/12/2012 10:11
  */
 @Immutable
 public class DeployHostsContext<T> {

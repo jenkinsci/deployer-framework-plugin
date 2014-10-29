@@ -37,7 +37,6 @@ import java.util.Set;
 /**
  * The origins from which files for deployment can be found.
  *
- * @since 4.0
  */
 public enum DeploySourceOrigin {
     /**

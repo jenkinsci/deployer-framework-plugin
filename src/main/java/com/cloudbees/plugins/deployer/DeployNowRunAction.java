@@ -136,7 +136,6 @@ public class DeployNowRunAction implements RunAction {
      * Called by stapler to create the {@link com.cloudbees.plugins.deployer.hosts.DeployHostsContext}.
      *
      * @return the context.
-     * @since 4.0
      */
     @SuppressWarnings("unused") // by stapler
     public DeployHostsContext<DeployNowRunAction> createHostsContext() {
@@ -382,7 +381,6 @@ public class DeployNowRunAction implements RunAction {
      *
      * @return an input stream from the log file, or null if none exists
      * @throws IOException
-     * @since 1.349
      */
     public InputStream getLogInputStream() throws IOException {
         File logFile = getLogFile();
@@ -409,7 +407,6 @@ public class DeployNowRunAction implements RunAction {
     /**
      * Used from <tt>console.jelly</tt> to write annotated log to the given output.
      *
-     * @since 1.349
      */
     public void writeLogTo(long offset, XMLOutput out) throws IOException {
         try {

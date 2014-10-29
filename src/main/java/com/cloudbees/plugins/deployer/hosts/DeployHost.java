@@ -44,7 +44,6 @@ import java.util.Set;
 /**
  * A set of {@link DeployTarget}s to be deployed.
  *
- * @since 4.0
  */
 public abstract class DeployHost<S extends DeployHost<S, T>, T extends DeployTarget<T>>
         extends AbstractDescribableImpl<DeployHost<S, T>> {

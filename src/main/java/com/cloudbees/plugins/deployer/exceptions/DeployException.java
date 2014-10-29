@@ -26,7 +26,6 @@ package com.cloudbees.plugins.deployer.exceptions;
 
 /**
  * @author stephenc
- * @since 06/12/2012 09:49
  */
 public class DeployException extends Exception {
 

@@ -144,7 +144,6 @@ public class DeployNowProjectAction implements Action {
      * Called by stapler to create the {@link com.cloudbees.plugins.deployer.hosts.DeployHostsContext}.
      *
      * @return the context.
-     * @since 4.0
      */
     @SuppressWarnings("unused") // by stapler
     public DeployHostsContext<DeployNowProjectAction> createHostsContext() {

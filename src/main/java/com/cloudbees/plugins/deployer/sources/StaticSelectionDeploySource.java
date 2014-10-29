@@ -46,7 +46,6 @@ import java.util.logging.Logger;
 /**
  * Finds the first file that matches an fixed selection.
  *
- * @since 4.0
  */
 @SuppressWarnings("unused") // used by stapler
 public class StaticSelectionDeploySource extends DeploySource {

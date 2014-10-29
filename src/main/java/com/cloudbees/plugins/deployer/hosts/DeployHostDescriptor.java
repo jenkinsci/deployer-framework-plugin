@@ -44,7 +44,6 @@ import java.util.Set;
 /**
  * The base class for {@link DeployHost} descriptors.
  *
- * @since 4.0
  */
 public abstract class DeployHostDescriptor<S extends DeployHost<S, T>, T extends DeployTarget<T>>
         extends Descriptor<DeployHost<S, T>> {
@@ -144,7 +143,6 @@ public abstract class DeployHostDescriptor<S extends DeployHost<S, T>, T extends
      * @param origins the origins
      * @param jobType the job type.
      * @return {@code true} if and only if this host is valid for the specified origins and job type.
-     * @since 4.3
      */
     public boolean isSupported(@NonNull Set<DeploySourceOrigin> origins,
                                @CheckForNull Class<? extends AbstractProject> jobType) {
@@ -157,7 +155,6 @@ public abstract class DeployHostDescriptor<S extends DeployHost<S, T>, T extends
      * @param origins the origins
      * @param run the run.
      * @return {@code true} if and only if this host is valid for the specified origins and run.
-     * @since 4.12
      */
     public boolean isSupported(@NonNull Set<DeploySourceOrigin> origins,
                                @CheckForNull Run<?, ?> run) {
@@ -175,8 +172,9 @@ public abstract class DeployHostDescriptor<S extends DeployHost<S, T>, T extends
      *
      * @return all the {@link DeployHost} descriptors.
      */
+    @SuppressWarnings("unchecked")
     public static ExtensionList<? extends DeployHostDescriptor<?, ?>> all() {
-        return Jenkins.getInstance().getDescriptorList(DeployHost.class);
+        return (ExtensionList<? extends DeployHostDescriptor<?, ?>>)Jenkins.getInstance().getDescriptorList(DeployHost.class);
     }
 
     /**
@@ -185,7 +183,6 @@ public abstract class DeployHostDescriptor<S extends DeployHost<S, T>, T extends
      * @param origins the origins
      * @param jobType the job type.
      * @return the descriptors that are supported for the specified origins and job type.
-     * @since 4.3
      */
     public static List<DeployHostDescriptor<?, ?>> allSupported(@NonNull Set<DeploySourceOrigin> origins,
                                                                 @CheckForNull Class<? extends AbstractProject>

@@ -45,7 +45,6 @@ import java.util.logging.Logger;
 /**
  * A deploy source that returns a specific directory.
  *
- * @since 4.3
  */
 public class FixedDirectoryDeploySource extends DeploySource {
     /**

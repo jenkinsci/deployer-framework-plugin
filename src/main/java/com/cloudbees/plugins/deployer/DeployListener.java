@@ -60,7 +60,6 @@ public class DeployListener implements ExtensionPoint {
      * @param host   the host that the deployment was for (or {@code null} if the information is not available).
      * @param target the target of the deployment (or {@code null} if the information is not available).
      * @param event  the successful deployment details.
-     * @since 4.2
      */
     @SuppressWarnings("deprecation")
     public <S extends DeployHost<S, T>, T extends DeployTarget<T>> void onSuccess(@CheckForNull DeployHost<S, T> host,
@@ -86,7 +85,6 @@ public class DeployListener implements ExtensionPoint {
      * @param host   the host that the deployment was for (or {@code null} if the information is not available).
      * @param target the target of the deployment (or {@code null} if the information is not available).
      * @param event  the failed deployment details.
-     * @since 4.2
      */
     @SuppressWarnings("deprecation")
     public <S extends DeployHost<S, T>, T extends DeployTarget<T>> void onFailure(@CheckForNull DeployHost<S, T> host,
@@ -113,7 +111,6 @@ public class DeployListener implements ExtensionPoint {
      * @param host   the host that the deployment was for (or {@code null} if the information is not available).
      * @param target the target of the deployment (or {@code null} if the information is not available).
      * @param event  the deployment details.
-     * @since 4.2
      */
     @SuppressWarnings("unchecked")
     public static <S extends DeployHost<S, T>, T extends DeployTarget<T>> void notifySuccess(
@@ -148,7 +145,6 @@ public class DeployListener implements ExtensionPoint {
      * @param host   the host that the deployment was for (or {@code null} if the information is not available).
      * @param target the target of the deployment (or {@code null} if the information is not available).
      * @param event  the deployment details.
-     * @since 4.2
      */
     public static <S extends DeployHost<S, T>, T extends DeployTarget<T>> void notifyFailure(
             @CheckForNull DeployHost<S, T> host,

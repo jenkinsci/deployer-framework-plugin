@@ -49,7 +49,6 @@ import java.util.logging.Logger;
 /**
  * Finds the first file that matches a file pattern.
  *
- * @since 4.0
  */
 @SuppressWarnings("unused") // used by stapler
 public class WildcardPathDeploySource extends DeploySource {

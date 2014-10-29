@@ -30,7 +30,6 @@ import jenkins.model.FingerprintFacet;
 
 /**
  * @author stephenc
- * @since 17/12/2012 12:24
  */
 public class DeployedApplicationFingerprintFacet<L extends DeployedApplicationLocation> extends FingerprintFacet {
     @NonNull

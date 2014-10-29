@@ -59,7 +59,6 @@ import java.util.logging.Logger;
 /**
  * Finds artifacts from a {@link MavenBuild} based on GACT coordinates.
  *
- * @since 4.0
  */
 @SuppressWarnings("unused") // used by stapler
 public class MavenArtifactDeploySource extends DeploySource {

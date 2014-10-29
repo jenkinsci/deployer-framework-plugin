@@ -30,7 +30,6 @@ import hudson.model.Descriptor;
 
 /**
  * @author stephenc
- * @since 06/12/2012 13:44
  */
 public abstract class EngineFactoryDescriptor<S extends DeployHost<S, T>, T extends DeployTarget<T>>
         extends Descriptor<EngineFactory<S, T>> {

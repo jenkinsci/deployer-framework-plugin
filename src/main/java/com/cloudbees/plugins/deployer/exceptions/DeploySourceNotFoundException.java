@@ -28,7 +28,6 @@ import com.cloudbees.plugins.deployer.sources.DeploySource;
 
 /**
  * @author stephenc
- * @since 4.0
  */
 @SuppressWarnings("unused") // API class
 public class DeploySourceNotFoundException extends DeployException {

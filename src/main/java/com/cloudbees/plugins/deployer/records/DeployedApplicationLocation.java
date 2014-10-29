@@ -34,7 +34,6 @@ import java.io.Serializable;
 /**
  * Represents information about an application that has been deployed to an URL.
  *
- * @since 4.0
  */
 public abstract class DeployedApplicationLocation implements Serializable {
 

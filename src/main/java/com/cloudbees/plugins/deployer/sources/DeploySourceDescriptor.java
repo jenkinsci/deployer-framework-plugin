@@ -50,7 +50,6 @@ import java.util.List;
 /**
  * The base class for all {@link DeploySource} {@link Descriptor} instances.
  *
- * @since 4.0
  */
 public abstract class DeploySourceDescriptor extends Descriptor<DeploySource> {
 
@@ -59,7 +58,6 @@ public abstract class DeploySourceDescriptor extends Descriptor<DeploySource> {
      *
      * @param jobType the job type.
      * @return {@code true} if and only if the supplied type is a Maven job type class.
-     * @since 4.17
      */
     public static boolean isMavenJob(Class<? extends AbstractProject> jobType) {
         return jobType != null && (MavenModuleSet.class.isAssignableFrom(jobType) || MavenProject.class
@@ -91,7 +89,6 @@ public abstract class DeploySourceDescriptor extends Descriptor<DeploySource> {
      * @param origins the origins.
      * @return {@code true} if and only if this {@link DeploySource} can operate from at least one of the specified
      *         origins
-     * @since 4.9
      */
     public boolean isSupported(@CheckForNull DeploySourceOrigin... origins) {
         for (DeploySourceOrigin origin : origins) {
@@ -106,7 +103,6 @@ public abstract class DeploySourceDescriptor extends Descriptor<DeploySource> {
      * Returns {@code true} if and only if this {@link DeploySource} can return files.
      *
      * @return {@code true} if and only if this {@link DeploySource} can return files.
-     * @since 4.3
      */
     public boolean isFileSource() {
         return true;
@@ -116,7 +112,6 @@ public abstract class DeploySourceDescriptor extends Descriptor<DeploySource> {
      * Returns {@code true} if and only if this {@link DeploySource} can return directories.
      *
      * @return {@code true} if and only if this {@link DeploySource} can return directories.
-     * @since 4.3
      */
     public boolean isDirectorySource() {
         return false;
@@ -203,7 +198,6 @@ public abstract class DeploySourceDescriptor extends Descriptor<DeploySource> {
      * @param targetDescriptorId the class name of the {@link DeployTarget} to delegate to.
      * @param path               the path we believe to be OK.
      * @return the results of validation.
-     * @since 4.3
      */
     protected FormValidation delegatePathValidationToTarget(@CheckForNull String pathName,
                                                             @CheckForNull String targetDescriptorId,

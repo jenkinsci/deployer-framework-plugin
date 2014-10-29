@@ -46,7 +46,6 @@ import java.util.LinkedHashSet;
 
 /**
  * @author stephenc
- * @since 06/12/2012 10:16
  */
 public abstract class EngineFactory<S extends DeployHost<S, T>, T extends DeployTarget<T>>
         extends AbstractDescribableImpl<EngineFactory<S, T>> {

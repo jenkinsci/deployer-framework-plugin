@@ -45,7 +45,6 @@ import java.util.Set;
  * The base class for {@link DeployTarget} descriptors
  *
  * @param <T> the {@link DeployTarget class}.
- * @since 4.0
  */
 public abstract class DeployTargetDescriptor<T extends DeployTarget<T>> extends Descriptor<T> {
 
@@ -70,7 +69,6 @@ public abstract class DeployTargetDescriptor<T extends DeployTarget<T>> extends 
      * Returns {@code true} if and only if this target can accept files.
      *
      * @return {@code true} if and only if this target can accept files.
-     * @since 4.3
      */
     public boolean isFileTarget() {
         return true;
@@ -80,7 +78,6 @@ public abstract class DeployTargetDescriptor<T extends DeployTarget<T>> extends 
      * Returns {@code true} if and only if this target can accept directories.
      *
      * @return {@code true} if and only if this target can accept directories.
-     * @since 4.3
      */
     public boolean isDirectoryTarget() {
         return false;
@@ -173,7 +170,6 @@ public abstract class DeployTargetDescriptor<T extends DeployTarget<T>> extends 
      * @param filePathName the user specified file path name value.
      * @param filePath     the resulting resolved file path.
      * @return the validation results.
-     * @since 4.3
      */
     @SuppressWarnings("unused") // used by stapler
     public FormValidation validateFilePath(String filePathName, FilePath filePath)

@@ -41,7 +41,6 @@ import java.io.Serializable;
 
 /**
  * @author stephenc
- * @since 12/12/2012 14:30
  */
 public abstract class DeployTarget<T extends DeployTarget<T>> extends AbstractDescribableImpl<T>
         implements ExtensionPoint, Serializable {

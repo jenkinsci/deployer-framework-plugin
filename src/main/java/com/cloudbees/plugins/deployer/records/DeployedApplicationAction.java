@@ -31,7 +31,6 @@ import java.io.Serializable;
 
 /**
  * @author stephenc
- * @since 17/12/2012 12:24
  */
 public class DeployedApplicationAction<L extends DeployedApplicationLocation>
         implements DeployedOnAction, Serializable {

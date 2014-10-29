@@ -37,7 +37,6 @@ import java.io.Serializable;
 /**
  * A source of files to deploy.
  *
- * @since 4.0
  */
 public abstract class DeploySource extends AbstractDescribableImpl<DeploySource>
         implements ExtensionPoint, Serializable {

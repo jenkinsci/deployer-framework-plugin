@@ -35,7 +35,6 @@ import java.util.List;
 
 /**
  * @author stephenc
- * @since 06/06/2012 17:00
  */
 public class DeployEvent implements Serializable {
     @NonNull
