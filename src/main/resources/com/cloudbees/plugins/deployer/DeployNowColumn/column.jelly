@@ -28,7 +28,7 @@
       <td>
           <j:if test="${it.isDeployPossible(job)}">
               <a href="${jobBaseUrl}${job.shortUrl}deploy-now">
-                  <img src="${resURL}/plugin/cloudbees-deployer-plugin/images/${subIconSize}/deploy-now.png"
+                  <img src="${resURL}/plugin/deployer-framework/images/${subIconSize}/deploy-now.png"
                        title="${%Schedule a deployment}" alt="${%Schedule a deployment}"
                        border="0"/>
               </a>

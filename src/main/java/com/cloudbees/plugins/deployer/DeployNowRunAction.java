@@ -287,7 +287,7 @@ public class DeployNowRunAction implements RunAction {
 
     public String getIconFileName() {
         return owner != null && isDeployPossible(owner)
-                ? Jenkins.RESOURCE_PATH + "/plugin/cloudbees-deployer-plugin/images/24x24/deploy-now.png"
+                ? Jenkins.RESOURCE_PATH + "/plugin/deployer-framework/images/24x24/deploy-now.png"
                 : null;
     }
 

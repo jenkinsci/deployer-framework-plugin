@@ -26,7 +26,7 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
          xmlns:f="/lib/form">
-    <f:entry title="${%When build is}" help="/plugin/cloudbees-deployer-plugin/help-publishWhen.html">
+    <f:entry title="${%When build is}" help="/plugin/deployer-framework/help-publishWhen.html">
       <input type="checkbox" checked="true" disabled="true"/>
       <label class="attach-previous">${%Stable}</label>
       <br />

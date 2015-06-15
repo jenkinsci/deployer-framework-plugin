@@ -93,7 +93,7 @@ public class DeployNowProjectAction implements Action {
      */
     public String getIconFileName() {
         return isDeployPossible(owner) ? Jenkins.RESOURCE_PATH
-                + "/plugin/cloudbees-deployer-plugin/images/24x24/deploy-now.png" : null;
+                + "/plugin/deployer-framework/images/24x24/deploy-now.png" : null;
     }
 
     /**
