@@ -134,7 +134,6 @@
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>matrix-project</artifactId>
       <version>1.2</version> <!-- In future Jenkins versions we should use ${matrix-project.version} -->
-      <scope>provide</scope>
     </dependency>
 
     <!-- jenkins dependencies -->
