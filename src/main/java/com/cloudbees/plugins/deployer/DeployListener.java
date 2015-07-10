@@ -117,11 +117,14 @@ public class DeployListener implements ExtensionPoint {
             @CheckForNull DeployHost<S, T> host,
             @CheckForNull DeployTarget<T> target,
             @NonNull DeployEvent event) {
-        for (DeployListener listener : Jenkins.getInstance().getExtensionList(DeployListener.class)) {
-            try {
-                listener.onSuccess(host, target, event);
-            } catch (Throwable t) {
-                LOGGER.log(Level.WARNING, "Uncaught exception from " + listener.getClass(), t);
+        final Jenkins jenkins = Jenkins.getInstance();
+        if (jenkins != null) {
+            for (DeployListener listener : jenkins.getExtensionList(DeployListener.class)) {
+                try {
+                    listener.onSuccess(host, target, event);
+                } catch (Throwable t) {
+                    LOGGER.log(Level.WARNING, "Uncaught exception from " + listener.getClass(), t);
+                }
             }
         }
     }
@@ -150,11 +153,14 @@ public class DeployListener implements ExtensionPoint {
             @CheckForNull DeployHost<S, T> host,
             @CheckForNull DeployTarget<T> target,
             @NonNull DeployEvent event) {
-        for (DeployListener listener : Jenkins.getInstance().getExtensionList(DeployListener.class)) {
-            try {
-                listener.onFailure(host, target, event);
-            } catch (Throwable t) {
-                LOGGER.log(Level.WARNING, "Uncaught exception from " + listener.getClass(), t);
+        final Jenkins jenkins = Jenkins.getInstance();
+        if (jenkins != null) {
+            for (DeployListener listener : jenkins.getExtensionList(DeployListener.class)) {
+                try {
+                    listener.onFailure(host, target, event);
+                } catch (Throwable t) {
+                    LOGGER.log(Level.WARNING, "Uncaught exception from " + listener.getClass(), t);
+                }
             }
         }
     }

@@ -33,6 +33,7 @@ import hudson.model.Queue;
 import hudson.slaves.RetentionStrategy;
 import hudson.slaves.SlaveComputer;
 import hudson.util.Futures;
+import jenkins.model.Jenkins;
 import org.kohsuke.stapler.HttpResponse;
 import org.kohsuke.stapler.HttpResponses;
 import org.kohsuke.stapler.StaplerRequest;
@@ -141,15 +142,20 @@ public class DeployNowComputer extends SlaveComputer {
             if (!c.isIdle()) {
                 return 1;
             }
-            for (Queue.Item t : Hudson.getInstance().getQueue().getItems()) {
-                if (t.task instanceof DeployNowTask) {
-                    return 1;
+            final Jenkins jenkins = Jenkins.getInstance();
+            if (jenkins != null) {
+                for (Queue.Item t : jenkins.getQueue().getItems()) {
+                    if (t.task instanceof DeployNowTask) {
+                        return 1;
+                    }
                 }
             }
             if (!c.offline) {
                 c.offline = true;
                 try {
-                    Hudson.getInstance().removeNode(c.getNode());
+                    if (jenkins != null) {
+                        jenkins.removeNode(c.getNode());
+                    }
                 } catch (IOException e) {
                     // ignore
                 }

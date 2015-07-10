@@ -203,8 +203,9 @@ public abstract class DeploySourceDescriptor extends Descriptor<DeploySource> {
                                                             @CheckForNull String targetDescriptorId,
                                                             @CheckForNull FilePath path)
             throws IOException, InterruptedException {
-        if (path != null) {
-            Descriptor o = Jenkins.getInstance().getDescriptorByName(targetDescriptorId);
+        final Jenkins jenkins = Jenkins.getInstance();
+        if (jenkins != null && path != null) {
+            Descriptor o = jenkins.getDescriptorByName(targetDescriptorId);
             if (o instanceof DeployTargetDescriptor) {
                 final DeployTargetDescriptor d = (DeployTargetDescriptor) o;
                 if (d.clazz.getName().equals(targetDescriptorId)) {
