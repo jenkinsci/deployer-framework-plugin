@@ -512,7 +512,11 @@ public class DeployNowRunAction implements RunAction {
                     listener.getLogger().println(hudson.model.Messages.Run_BuildAborted());
                 }
 
-                Launcher launcher = Jenkins.getInstance().createLauncher(listener);
+                final Jenkins jenkins = Jenkins.getInstance();
+                if (jenkins == null) {
+                    throw new IllegalStateException("Jenkins has shut down or not yet started.");
+                }
+                Launcher launcher = jenkins.createLauncher(listener);
                 if (!deployer.perform((AbstractBuild) owner, launcher, listener)) {
                     result = Result.FAILURE;
                 }

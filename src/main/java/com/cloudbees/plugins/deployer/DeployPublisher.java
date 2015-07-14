@@ -91,9 +91,10 @@ public class DeployPublisher extends Notifier {
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener)
             throws InterruptedException, IOException {
-        if (build.getResult().isWorseThan(deployIfUnstable ? Result.UNSTABLE : Result.SUCCESS)) {
+        final Result result = build.getResult();
+        if (result != null && result.isWorseThan(deployIfUnstable ? Result.UNSTABLE : Result.SUCCESS)) {
             listener.getLogger().println("[cloudbees-deployer] Skipping deployment as build result is "
-                    + build.getResult().toString());
+                    + result.toString());
             return true;
         }
         try {

@@ -275,7 +275,7 @@ public class DeployNowColumn extends ListViewColumn {
                 File[] files = file.listFiles();
                 // check depth last, as we want an answer as quick as possible
                 for (File f : files) {
-                    if (f.isFile() && f.getName().endsWith(".war")) {
+                    if (f != null && f.isFile() && f.getName().endsWith(".war")) {
                         return true;
                     }
                 }

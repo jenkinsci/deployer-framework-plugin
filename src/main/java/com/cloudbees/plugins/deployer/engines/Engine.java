@@ -102,7 +102,7 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
             try {
                 DeploySource source = target.getArtifact();
                 if (source == null) {
-                    throw new DeploySourceNotFoundException(source,
+                    throw new DeploySourceNotFoundException(null,
                             "Undefined source for " + target.getDisplayName());
                 }
                 DeployedApplicationLocation location = null;
@@ -111,14 +111,17 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
                     if (source.getDescriptor().isSupported(origin)) {
                         switch (origin) {
                             case WORKSPACE: {
-                                FilePath applicationFile = source.getApplicationFile(build.getWorkspace());
-                                if (applicationFile != null) {
-                                    found = true;
-                                    validate(applicationFile);
-                                    log("  Resolved from workspace as " + applicationFile);
-                                    location = process(applicationFile, target);
-                                    DeployListener.notifySuccess(set, target, event);
-                                    break findSource;
+                                FilePath workspace = build.getWorkspace();
+                                if (workspace != null) {
+                                    FilePath applicationFile = source.getApplicationFile(workspace);
+                                    if (applicationFile != null) {
+                                        found = true;
+                                        validate(applicationFile);
+                                        log("  Resolved from workspace as " + applicationFile);
+                                        location = process(applicationFile, target);
+                                        DeployListener.notifySuccess(set, target, event);
+                                        break findSource;
+                                    }
                                 }
                             }
                             break;
@@ -213,7 +216,11 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
 
     @SuppressWarnings("unchecked")
     public static EngineFactory<?, ?> create(DeployHost<?, ?> configuration) throws DeployException {
-        for (Object d : Jenkins.getInstance().getDescriptorList(EngineFactory.class)) {
+        final Jenkins jenkins = Jenkins.getInstance();
+        if (jenkins == null) {
+            throw new IllegalStateException("Jenkins has shut down or not started.");
+        }
+        for (Object d : jenkins.getDescriptorList(EngineFactory.class)) {
             if (d instanceof EngineFactoryDescriptor) {
                 final EngineFactoryDescriptor<?, ?> descriptor = EngineFactoryDescriptor.class.cast(d);
                 if (descriptor.isApplicable(configuration.getClass())) {

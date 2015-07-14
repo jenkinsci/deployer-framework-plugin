@@ -174,7 +174,13 @@ public abstract class DeployHostDescriptor<S extends DeployHost<S, T>, T extends
      */
     @SuppressWarnings("unchecked")
     public static ExtensionList<? extends DeployHostDescriptor<?, ?>> all() {
-        return (ExtensionList<? extends DeployHostDescriptor<?, ?>>)Jenkins.getInstance().getDescriptorList(DeployHost.class);
+        //TODO Use ExtensionList.lookup when core is dependency is past 1.572
+        final Jenkins jenkins = Jenkins.getInstance();
+        if (jenkins != null) {
+            return (ExtensionList<? extends DeployHostDescriptor<?, ?>>)jenkins.getDescriptorList(DeployHost.class);
+        } else {
+            return (ExtensionList<? extends DeployHostDescriptor<?, ?>>)ExtensionList.create((Jenkins)null, self());
+        }
     }
 
     /**

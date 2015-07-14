@@ -160,9 +160,9 @@ public abstract class CapabilitiesResolver implements ExtensionPoint {
      */
     @NonNull
     public static CapabilitiesResolver of(@CheckForNull Class<? extends AbstractProject> jobType) {
-        if (jobType != null) {
-            for (CapabilitiesResolver capabilitiesResolver : Jenkins.getInstance()
-                    .getExtensionList(CapabilitiesResolver.class)) {
+        final Jenkins jenkins = Jenkins.getInstance();
+        if (jenkins != null && jobType != null) {
+            for (CapabilitiesResolver capabilitiesResolver : jenkins.getExtensionList(CapabilitiesResolver.class)) {
                 try {
                     if (capabilitiesResolver.knows(jobType)) {
                         return capabilitiesResolver;

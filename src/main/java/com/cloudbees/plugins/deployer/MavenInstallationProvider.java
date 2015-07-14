@@ -47,8 +47,9 @@ public class MavenInstallationProvider extends ToolLocationTranslator {
     @Override
     public String getToolHome(Node node, ToolInstallation installation,
                               TaskListener log) throws IOException, InterruptedException {
-        if (installation.getHome() == null && Executor.currentExecutor() != null
-                && Executor.currentExecutor().getOwner().getNode() instanceof DeployNowSlave) {
+        final Executor currentExecutor = Executor.currentExecutor();
+        if (installation.getHome() == null && currentExecutor != null
+                && currentExecutor.getOwner().getNode() instanceof DeployNowSlave) {
             return "/notmaven";
         } else {
             return null;
