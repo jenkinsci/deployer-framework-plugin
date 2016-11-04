@@ -68,6 +68,11 @@ public class DeployNowColumn extends ListViewColumn {
     @Extension
     public static class DescriptorImpl extends ListViewColumnDescriptor {
 
+        @Override
+        public boolean shownByDefault() {
+            return false;
+        }
+
         private final Map<Run, Boolean> deployPossibleCache = new WeakHashMap<Run, Boolean>();
 
         private final Map<Run, Map<DeploySource, Boolean>> sourceHasNoFile =
