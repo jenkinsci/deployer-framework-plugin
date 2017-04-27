@@ -158,7 +158,7 @@ public class MavenArtifactDeploySource extends DeploySource {
      */
     @NonNull
     public String getType() {
-        return type == null ? DEFAULT_TYPE : type;
+        return type;
     }
 
     /**

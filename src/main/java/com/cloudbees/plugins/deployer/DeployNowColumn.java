@@ -278,18 +278,20 @@ public class DeployNowColumn extends ListViewColumn {
         private static boolean foundWar(File file) {
             if (file.isDirectory()) {
                 File[] files = file.listFiles();
-                // check depth last, as we want an answer as quick as possible
-                for (File f : files) {
-                    if (f != null && f.isFile() && f.getName().endsWith(".war")) {
-                        return true;
-                    }
-                }
-                for (File f : files) {
-                    if (f.isDirectory() && foundWar(f)) {
-                        return true;
-                    }
-                }
 
+                if (files != null) {
+                    // check depth last, as we want an answer as quick as possible
+                    for (File f : files) {
+                        if (f != null && f.isFile() && f.getName().endsWith(".war")) {
+                            return true;
+                        }
+                    }
+                    for (File f : files) {
+                        if (f.isDirectory() && foundWar(f)) {
+                            return true;
+                        }
+                    }
+                }
             } else if (!file.isFile()) {
                 return file.getName().endsWith(".war");
             }

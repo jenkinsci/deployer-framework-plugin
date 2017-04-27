@@ -51,7 +51,6 @@ import hudson.model.RunAction;
 import hudson.model.StreamBuildListener;
 import hudson.model.TaskListener;
 import hudson.model.TransientBuildActionFactory;
-import hudson.model.TransientProjectActionFactory;
 import hudson.model.listeners.RunListener;
 import hudson.security.ACL;
 import hudson.security.Permission;
@@ -397,11 +396,7 @@ public class DeployNowRunAction implements RunAction {
     }
 
     public Reader getLogReader() throws IOException {
-        if (getCharset() == null) {
-            return new InputStreamReader(getLogInputStream());
-        } else {
-            return new InputStreamReader(getLogInputStream(), getCharset());
-        }
+        return new InputStreamReader(getLogInputStream(), getCharset());
     }
 
     /**

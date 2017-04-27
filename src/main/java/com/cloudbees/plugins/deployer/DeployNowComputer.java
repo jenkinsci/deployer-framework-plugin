@@ -30,6 +30,7 @@ import hudson.model.Executor;
 import hudson.model.Hudson;
 import hudson.model.Node;
 import hudson.model.Queue;
+import hudson.model.Slave;
 import hudson.slaves.RetentionStrategy;
 import hudson.slaves.SlaveComputer;
 import hudson.util.Futures;
@@ -154,7 +155,10 @@ public class DeployNowComputer extends SlaveComputer {
                 c.offline = true;
                 try {
                     if (jenkins != null) {
-                        jenkins.removeNode(c.getNode());
+                        Slave node = c.getNode();
+                        if (node != null) {
+                            jenkins.removeNode(node);
+                        }
                     }
                 } catch (IOException e) {
                     // ignore

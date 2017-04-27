@@ -93,7 +93,7 @@ public class DeployEvent implements Serializable {
     @Override
     public int hashCode() {
         int result = build.hashCode();
-        result = 31 * result + (causes != null ? causes.hashCode() : 0);
+        result = 31 * result + causes.hashCode();
         return result;
     }
 }
