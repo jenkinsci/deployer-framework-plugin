@@ -48,7 +48,9 @@ import hudson.remoting.Callable;
 import hudson.remoting.Channel;
 import hudson.remoting.VirtualChannel;
 import hudson.security.ACL;
+import jenkins.MasterToSlaveFileCallable;
 import jenkins.model.Jenkins;
+import jenkins.security.MasterToSlaveCallable;
 import org.acegisecurity.Authentication;
 import org.apache.commons.io.IOUtils;
 
@@ -232,7 +234,7 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
         throw new DeployException("Deployment hosts of type " + configuration.getClass() + " are unsupported");
     }
 
-    public static class FingerprintDecorator implements Callable<DeployedApplicationLocation, IOException> {
+    public static class FingerprintDecorator extends MasterToSlaveCallable<DeployedApplicationLocation, IOException> {
 
         private final String md5sum;
         private final DeployedApplicationLocation location;
@@ -263,7 +265,7 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
         }
     }
 
-    public static class FingerprintingWrapper implements FilePath.FileCallable<DeployedApplicationLocation> {
+    public static class FingerprintingWrapper extends MasterToSlaveFileCallable<DeployedApplicationLocation> {
         private final FilePath.FileCallable<DeployedApplicationLocation> delegate;
         private final BuildListener listener;
 
