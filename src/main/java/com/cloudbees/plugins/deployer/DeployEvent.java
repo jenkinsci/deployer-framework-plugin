@@ -25,6 +25,7 @@
 package com.cloudbees.plugins.deployer;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.model.AbstractBuild;
 import hudson.model.Cause;
 
@@ -36,6 +37,7 @@ import java.util.List;
 /**
  * @author stephenc
  */
+@SuppressFBWarnings(value = "SE_BAD_FIELD")
 public class DeployEvent implements Serializable {
     @NonNull
     private final AbstractBuild<?, ?> build;

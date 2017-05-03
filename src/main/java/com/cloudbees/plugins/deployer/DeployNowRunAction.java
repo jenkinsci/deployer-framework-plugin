@@ -30,6 +30,7 @@ import com.cloudbees.plugins.deployer.hosts.DeployHostsContext;
 import com.cloudbees.plugins.deployer.resolvers.CapabilitiesResolver;
 import com.cloudbees.plugins.deployer.sources.DeploySourceOrigin;
 import com.cloudbees.plugins.deployer.targets.DeployTarget;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.Launcher;
 import hudson.Util;
@@ -208,6 +209,7 @@ public class DeployNowRunAction implements RunAction {
         return HttpResponses.forwardToView(this, "configure");
     }
 
+    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "Value returned by delete() is not needed")
     public HttpResponse doDeploy(StaplerRequest req) throws ServletException {
         if ("POST".equalsIgnoreCase(req.getMethod())
                 && owner.getParent().hasPermission(DEPLOY)
@@ -459,6 +461,7 @@ public class DeployNowRunAction implements RunAction {
 
     }
 
+    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "Value returned by delete() is not needed")
     protected final void run(Deployer deployer) {
         if (this.deployer != null) {
             return;     // already deploying.
