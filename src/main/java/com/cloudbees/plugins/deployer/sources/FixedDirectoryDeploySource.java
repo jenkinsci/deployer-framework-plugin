@@ -26,6 +26,7 @@ package com.cloudbees.plugins.deployer.sources;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.RelativePath;
@@ -92,6 +93,7 @@ public class FixedDirectoryDeploySource extends DeploySource {
      */
     @Override
     @NonNull
+    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Might be null if serialized")
     public FilePath getApplicationFile(@NonNull FilePath workspace) {
         return directoryPath == null ? workspace : workspace.child(directoryPath);
     }

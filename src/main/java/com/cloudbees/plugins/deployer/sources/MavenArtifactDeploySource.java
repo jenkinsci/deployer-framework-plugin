@@ -26,6 +26,7 @@ package com.cloudbees.plugins.deployer.sources;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.Util;
@@ -157,6 +158,7 @@ public class MavenArtifactDeploySource extends DeploySource {
      * @return the type of artifact to match.
      */
     @NonNull
+    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Might be null if serialized")
     public String getType() {
         return type == null ? DEFAULT_TYPE : type;
     }
