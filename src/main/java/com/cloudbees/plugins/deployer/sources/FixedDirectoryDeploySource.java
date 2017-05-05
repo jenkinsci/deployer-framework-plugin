@@ -93,7 +93,7 @@ public class FixedDirectoryDeploySource extends DeploySource {
     @Override
     @NonNull
     public FilePath getApplicationFile(@NonNull FilePath workspace) {
-        return workspace.child(directoryPath);
+        return directoryPath == null ? workspace : workspace.child(directoryPath);
     }
 
     /**
