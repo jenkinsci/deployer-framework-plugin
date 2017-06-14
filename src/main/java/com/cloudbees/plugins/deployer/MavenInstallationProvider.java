@@ -36,7 +36,7 @@ import java.io.IOException;
 /**
  * Since we allow token expansion, we must provide a default Maven path -- in
  * case they are running on a master without any Mavens.
- * <p></p>
+ * <p>
  * We don't really need a working maven, so just return something besides null.
  *
  * @author Ryan Campbell

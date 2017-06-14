@@ -120,7 +120,7 @@ public class PromotionCapabilitiesResolver extends CapabilitiesResolver {
     @Override
     public Run<?, ?> getLastSuccessfulBuild(AbstractProject<?, ?> project) {
         if (project != null) {
-            return CapabilitiesResolver.getLastDeployableBuild(PromotionProcess.class.cast(project).getRootProject());
+            return CapabilitiesResolver.getLastDeployableBuild(((PromotionProcess) project).getRootProject());
         }
         return null;
     }
