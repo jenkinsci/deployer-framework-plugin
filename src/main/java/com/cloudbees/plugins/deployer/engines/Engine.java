@@ -48,7 +48,6 @@ import hudson.security.ACL;
 import jenkins.MasterToSlaveFileCallable;
 import jenkins.model.Jenkins;
 import org.acegisecurity.Authentication;
-import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,6 +57,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -180,8 +180,7 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
     public DeployedApplicationLocation process(FilePath applicationFile, T target) throws DeployException {
         try {
             FingerprintingWrapper actor = new FingerprintingWrapper(newDeployActor(target), listener);
-            AbstractMap.SimpleEntry<String, DeployedApplicationLocation> pair = applicationFile.act(actor);
-            return this.addToFacects(pair);
+            return this.addToFacets(applicationFile.act(actor));
         } catch (DeployException e) {
             throw e;
         } catch (InterruptedException e) {
@@ -195,8 +194,7 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
     public DeployedApplicationLocation process(File applicationFile, T target) throws DeployException {
         try {
             FingerprintingWrapper actor = new FingerprintingWrapper(newDeployActor(target), listener);
-            AbstractMap.SimpleEntry<String, DeployedApplicationLocation> pair = actor.invoke(applicationFile, launcher.getChannel());
-            return this.addToFacects(pair);
+            return this.addToFacets(actor.invoke(applicationFile, launcher.getChannel()));
         } catch (DeployException e) {
             throw e;
         } catch (InterruptedException e) {
@@ -206,7 +204,7 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
         }
     }
 
-    private DeployedApplicationLocation addToFacects(AbstractMap.SimpleEntry<String, DeployedApplicationLocation> pair) throws IOException {
+    private DeployedApplicationLocation addToFacets(Map.Entry<String, DeployedApplicationLocation> pair) throws IOException {
         DeployedApplicationLocation location = pair.getValue();
         String md5sum = pair.getKey();
 
@@ -262,7 +260,7 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
         throw new DeployException("Deployment hosts of type " + configuration.getClass() + " are unsupported");
     }
 
-    public static class FingerprintingWrapper extends MasterToSlaveFileCallable<AbstractMap.SimpleEntry<String, DeployedApplicationLocation>> {
+    public static class FingerprintingWrapper extends MasterToSlaveFileCallable<Map.Entry<String, DeployedApplicationLocation>> {
         private final FilePath.FileCallable<DeployedApplicationLocation> delegate;
         private final BuildListener listener;
 
@@ -272,24 +270,14 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
             this.listener = listener;
         }
 
-        public AbstractMap.SimpleEntry<String, DeployedApplicationLocation> invoke(File f, VirtualChannel channel)
-                throws IOException, InterruptedException {
+        public Map.Entry<String, DeployedApplicationLocation> invoke(File f, VirtualChannel channel) throws IOException, InterruptedException {
             DeployedApplicationLocation location = delegate.invoke(f, channel);
             if (f.isFile() && location != null) {
                 FileInputStream fis = new FileInputStream(f);
-                try {
-                    String md5sum = Util.getDigestOf(fis);
-                    return new AbstractMap.SimpleEntry<String, DeployedApplicationLocation>(md5sum, location);
-                } catch (Exception e) {
-                    listener.error("[cloudbees-deployer] Could not record fingerprint association");
-                } catch (LinkageError e) {
-                    listener.getLogger().println(
-                            "[cloudbees-deployer] Cannot not record fingerprint association prior to Jenkins 1.421");
-                } finally {
-                    IOUtils.closeQuietly(fis);
-                }
-
+                String md5sum = Util.getDigestOf(fis);
+                return new AbstractMap.SimpleEntry<String, DeployedApplicationLocation>(md5sum, location);
             }
+
             return new AbstractMap.SimpleEntry<String, DeployedApplicationLocation>(NO_MD5, location);
         }
     }
