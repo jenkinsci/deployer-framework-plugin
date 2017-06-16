@@ -48,6 +48,7 @@ import hudson.security.ACL;
 import jenkins.MasterToSlaveFileCallable;
 import jenkins.model.Jenkins;
 import org.acegisecurity.Authentication;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -179,7 +180,7 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
     @CheckForNull
     public DeployedApplicationLocation process(FilePath applicationFile, T target) throws DeployException {
         try {
-            FingerprintingWrapper actor = new FingerprintingWrapper(newDeployActor(target), listener);
+            FingerprintingWrapper actor = new FingerprintingWrapper(newDeployActor(target));
             return this.addToFacets(applicationFile.act(actor));
         } catch (DeployException e) {
             throw e;
@@ -193,7 +194,7 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
     @CheckForNull
     public DeployedApplicationLocation process(File applicationFile, T target) throws DeployException {
         try {
-            FingerprintingWrapper actor = new FingerprintingWrapper(newDeployActor(target), listener);
+            FingerprintingWrapper actor = new FingerprintingWrapper(newDeployActor(target));
             return this.addToFacets(actor.invoke(applicationFile, launcher.getChannel()));
         } catch (DeployException e) {
             throw e;
@@ -262,20 +263,21 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
 
     public static class FingerprintingWrapper extends MasterToSlaveFileCallable<Map.Entry<String, DeployedApplicationLocation>> {
         private final FilePath.FileCallable<DeployedApplicationLocation> delegate;
-        private final BuildListener listener;
 
-        public FingerprintingWrapper(FilePath.FileCallable<DeployedApplicationLocation> delegate,
-                                     BuildListener listener) {
+        public FingerprintingWrapper(FilePath.FileCallable<DeployedApplicationLocation> delegate) {
             this.delegate = delegate;
-            this.listener = listener;
         }
 
         public Map.Entry<String, DeployedApplicationLocation> invoke(File f, VirtualChannel channel) throws IOException, InterruptedException {
             DeployedApplicationLocation location = delegate.invoke(f, channel);
             if (f.isFile() && location != null) {
                 FileInputStream fis = new FileInputStream(f);
-                String md5sum = Util.getDigestOf(fis);
-                return new AbstractMap.SimpleEntry<String, DeployedApplicationLocation>(md5sum, location);
+                try {
+                    String md5sum = Util.getDigestOf(fis);
+                    return new AbstractMap.SimpleEntry<String, DeployedApplicationLocation>(md5sum, location);
+                } finally {
+                    IOUtils.closeQuietly(fis);
+                }
             }
 
             return new AbstractMap.SimpleEntry<String, DeployedApplicationLocation>(NO_MD5, location);
