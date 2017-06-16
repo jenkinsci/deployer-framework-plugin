@@ -276,7 +276,7 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
                     String md5sum = Util.getDigestOf(fis);
                     return new AbstractMap.SimpleEntry<String, DeployedApplicationLocation>(md5sum, location);
                 } finally {
-                    IOUtils.closeQuietly(fis);
+                    fis.close();
                 }
             }
 
