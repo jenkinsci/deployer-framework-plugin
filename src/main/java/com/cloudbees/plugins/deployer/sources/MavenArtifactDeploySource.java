@@ -158,9 +158,8 @@ public class MavenArtifactDeploySource extends DeploySource {
      * @return the type of artifact to match.
      */
     @NonNull
-    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Might be null if deserialized")
     public String getType() {
-        return type == null ? DEFAULT_TYPE : type;
+        return StringUtils.defaultString(type, DEFAULT_TYPE);
     }
 
     /**
