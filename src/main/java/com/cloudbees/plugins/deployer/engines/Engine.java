@@ -42,12 +42,10 @@ import hudson.Util;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.model.Fingerprint;
-import hudson.model.Hudson;
 import hudson.model.Item;
-import hudson.remoting.Callable;
-import hudson.remoting.Channel;
 import hudson.remoting.VirtualChannel;
 import hudson.security.ACL;
+import jenkins.MasterToSlaveFileCallable;
 import jenkins.model.Jenkins;
 import org.acegisecurity.Authentication;
 import org.apache.commons.io.IOUtils;
@@ -55,16 +53,20 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * A deployment engine knows how to deploy artifacts to a remote service.
  */
 public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<T>> {
+
+    private final static String NO_MD5 = "NOMD5";
 
     protected final Item deployScope;
     protected final List<Authentication> deployAuthentications;
@@ -178,8 +180,8 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
     @CheckForNull
     public DeployedApplicationLocation process(FilePath applicationFile, T target) throws DeployException {
         try {
-            FingerprintingWrapper actor = new FingerprintingWrapper(newDeployActor(target), listener);
-            return applicationFile.act(actor);
+            FingerprintingWrapper actor = new FingerprintingWrapper(newDeployActor(target));
+            return this.addToFacets(applicationFile.act(actor));
         } catch (DeployException e) {
             throw e;
         } catch (InterruptedException e) {
@@ -192,8 +194,8 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
     @CheckForNull
     public DeployedApplicationLocation process(File applicationFile, T target) throws DeployException {
         try {
-            FingerprintingWrapper actor = new FingerprintingWrapper(newDeployActor(target), listener);
-            return actor.invoke(applicationFile, launcher.getChannel());
+            FingerprintingWrapper actor = new FingerprintingWrapper(newDeployActor(target));
+            return this.addToFacets(actor.invoke(applicationFile, launcher.getChannel()));
         } catch (DeployException e) {
             throw e;
         } catch (InterruptedException e) {
@@ -201,6 +203,33 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
         } catch (Throwable t) {
             throw new DeployException(t.getMessage(), t);
         }
+    }
+
+    private DeployedApplicationLocation addToFacets(Map.Entry<String, DeployedApplicationLocation> pair) throws IOException {
+        DeployedApplicationLocation location = pair.getValue();
+        String md5sum = pair.getKey();
+
+        if (!NO_MD5.equals(md5sum)) {
+            Jenkins j = Jenkins.getInstance();
+            if (j == null) {
+                throw new IllegalStateException("Jenkins has not been started, or was already shut down");
+            }
+
+            Fingerprint fingerprint = j._getFingerprint(md5sum);
+            if (fingerprint != null) {
+                fingerprint.getFacets()
+                        .add(new DeployedApplicationFingerprintFacet<DeployedApplicationLocation>(fingerprint,
+                                System.currentTimeMillis(),
+                                location));
+                fingerprint.save();
+                listener.getLogger().println("[cloudbees-deployer] Recorded deployment in fingerprint record");
+            } else {
+                listener.getLogger()
+                        .println("[cloudbees-deployer] Deployed artifact does not have a fingerprint record");
+            }
+        }
+
+        return location;
     }
 
     protected abstract FilePath.FileCallable<DeployedApplicationLocation> newDeployActor(T target)
@@ -232,76 +261,26 @@ public abstract class Engine<S extends DeployHost<S, T>, T extends DeployTarget<
         throw new DeployException("Deployment hosts of type " + configuration.getClass() + " are unsupported");
     }
 
-    public static class FingerprintDecorator implements Callable<DeployedApplicationLocation, IOException> {
-
-        private final String md5sum;
-        private final DeployedApplicationLocation location;
-        private final BuildListener listener;
-        private final long timestamp;
-
-        public FingerprintDecorator(BuildListener listener, String md5sum, DeployedApplicationLocation location) {
-            this.listener = listener;
-            this.md5sum = md5sum;
-            this.location = location;
-            this.timestamp = System.currentTimeMillis();
-        }
-
-        public DeployedApplicationLocation call() throws IOException {
-            Fingerprint fingerprint = Hudson.getInstance()._getFingerprint(md5sum);
-            if (fingerprint != null) {
-                fingerprint.getFacets()
-                        .add(new DeployedApplicationFingerprintFacet<DeployedApplicationLocation>(fingerprint,
-                                timestamp,
-                                location));
-                fingerprint.save();
-                listener.getLogger().println("[cloudbees-deployer] Recorded deployment in fingerprint record");
-            } else {
-                listener.getLogger()
-                        .println("[cloudbees-deployer] Deployed artifact does not have a fingerprint record");
-            }
-            return location;
-        }
-    }
-
-    public static class FingerprintingWrapper implements FilePath.FileCallable<DeployedApplicationLocation> {
+    public static class FingerprintingWrapper extends MasterToSlaveFileCallable<Map.Entry<String, DeployedApplicationLocation>> {
         private final FilePath.FileCallable<DeployedApplicationLocation> delegate;
-        private final BuildListener listener;
 
-        public FingerprintingWrapper(FilePath.FileCallable<DeployedApplicationLocation> delegate,
-                                     BuildListener listener) {
+        public FingerprintingWrapper(FilePath.FileCallable<DeployedApplicationLocation> delegate) {
             this.delegate = delegate;
-            this.listener = listener;
         }
 
-        public DeployedApplicationLocation invoke(File f, VirtualChannel channel)
-                throws IOException, InterruptedException {
+        public Map.Entry<String, DeployedApplicationLocation> invoke(File f, VirtualChannel channel) throws IOException, InterruptedException {
             DeployedApplicationLocation location = delegate.invoke(f, channel);
             if (f.isFile() && location != null) {
                 FileInputStream fis = new FileInputStream(f);
                 try {
                     String md5sum = Util.getDigestOf(fis);
-                    FingerprintDecorator decorator = new FingerprintDecorator(listener, md5sum, location);
-                    Jenkins instance = Jenkins.getInstance();
-                    if (instance != null) {
-                        return decorator.call();
-                    } else {
-                        Channel current = Channel.current();
-                        assert current != null
-                                : "Can only have a null Jenkins instance if on the other end of a channel";
-                        return current.call(decorator);
-                    }
-                } catch (Exception e) {
-                    listener.error("[cloudbees-deployer] Could not record fingerprint association");
-                    // e.printStackTrace(listener.getLogger());
-                } catch (LinkageError e) {
-                    listener.getLogger().println(
-                            "[cloudbees-deployer] Cannot not record fingerprint association prior to Jenkins 1.421");
+                    return new AbstractMap.SimpleEntry<String, DeployedApplicationLocation>(md5sum, location);
                 } finally {
-                    IOUtils.closeQuietly(fis);
+                    fis.close();
                 }
-
             }
-            return location;
+
+            return new AbstractMap.SimpleEntry<String, DeployedApplicationLocation>(NO_MD5, location);
         }
     }
 }

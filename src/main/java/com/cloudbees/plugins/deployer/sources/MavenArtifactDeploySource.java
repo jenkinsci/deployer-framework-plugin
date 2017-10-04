@@ -26,6 +26,7 @@ package com.cloudbees.plugins.deployer.sources;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.Util;
@@ -158,7 +159,7 @@ public class MavenArtifactDeploySource extends DeploySource {
      */
     @NonNull
     public String getType() {
-        return type == null ? DEFAULT_TYPE : type;
+        return StringUtils.defaultString(type, DEFAULT_TYPE);
     }
 
     /**

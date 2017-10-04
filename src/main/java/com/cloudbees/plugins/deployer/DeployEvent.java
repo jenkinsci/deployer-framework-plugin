@@ -28,7 +28,6 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.model.AbstractBuild;
 import hudson.model.Cause;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +35,7 @@ import java.util.List;
 /**
  * @author stephenc
  */
-public class DeployEvent implements Serializable {
+public class DeployEvent {
     @NonNull
     private final AbstractBuild<?, ?> build;
     @NonNull
@@ -93,7 +92,7 @@ public class DeployEvent implements Serializable {
     @Override
     public int hashCode() {
         int result = build.hashCode();
-        result = 31 * result + (causes != null ? causes.hashCode() : 0);
+        result = 31 * result + causes.hashCode();
         return result;
     }
 }

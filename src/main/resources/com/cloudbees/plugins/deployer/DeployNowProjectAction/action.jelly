@@ -21,6 +21,7 @@
  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  ~ THE SOFTWARE.
  -->
+<?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout">
   <j:if test="${action.iconFileName != null &amp;&amp; h.hasPermission(it, action.DEPLOY)}">
     <l:task icon="${h.getIconFilePath(action)}" title="${action.displayName}"
