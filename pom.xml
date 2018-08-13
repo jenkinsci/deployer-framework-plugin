@@ -68,7 +68,7 @@
   <properties>
     <maven.findbugs.failure.strict>false</maven.findbugs.failure.strict>
     <jenkins.version>1.580.1</jenkins.version>
-    <java.level>6</java.level>
+    <java.level>7</java.level>
   </properties>
 
   <repositories>
@@ -140,7 +140,7 @@
     <dependency>
       <groupId>org.jenkins-ci.main</groupId>
       <artifactId>maven-plugin</artifactId>
-      <version>2.5</version>
+      <version>3.1.2</version>
       <scope>compile</scope>
     </dependency>
 
