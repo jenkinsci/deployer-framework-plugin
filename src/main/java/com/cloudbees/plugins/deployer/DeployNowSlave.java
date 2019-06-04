@@ -111,7 +111,7 @@ public class DeployNowSlave extends Slave implements EphemeralNode {
 
         @Override
         public String getDisplayName() {
-            return null;
+            return "Deploy Now Slave";
         }
     }
 
@@ -129,7 +129,7 @@ public class DeployNowSlave extends Slave implements EphemeralNode {
 
             @Override
             public String getDisplayName() {
-                return null;
+                return "Deploy Now Slave Property";
             }
         }
     }

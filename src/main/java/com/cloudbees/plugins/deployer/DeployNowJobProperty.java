@@ -31,17 +31,17 @@ import com.cloudbees.plugins.deployer.sources.DeploySourceOrigin;
 import hudson.Extension;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
-import hudson.model.Hudson;
+import hudson.model.Descriptor;
 import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
 import hudson.model.TransientProjectActionFactory;
 import hudson.util.ExceptionCatchingThreadFactory;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 
-import java.io.ObjectStreamException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -70,8 +70,10 @@ public class DeployNowJobProperty extends JobProperty<AbstractProject<?, ?>> {
     }
 
     static void submit(Runnable task) {
-        ((DescriptorImpl) Hudson.getInstance().getDescriptor(DeployNowJobProperty.class)).deployNowPool.submit(
-                task);
+        Descriptor descriptor = Jenkins.get().getDescriptor(DeployNowJobProperty.class);
+        if (descriptor instanceof DescriptorImpl) {
+            ((DescriptorImpl) descriptor).deployNowPool.submit(task);
+        }
     }
 
     public boolean isOneClickDeploy() {
