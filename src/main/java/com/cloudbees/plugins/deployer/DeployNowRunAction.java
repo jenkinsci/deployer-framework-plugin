@@ -507,7 +507,7 @@ public class DeployNowRunAction implements RunAction {
                 } catch (ThreadDeath t) {
                     throw t;
                 } catch (InterruptedException e) {
-                    listener.getLogger().println(hudson.model.Messages.Run_BuildAborted());
+                    listener.getLogger().println(Messages.DeployNowRunAction_BuildAborted());
                 }
 
                 final Jenkins jenkins = Jenkins.getInstance();
@@ -527,7 +527,7 @@ public class DeployNowRunAction implements RunAction {
             } catch (InterruptedException e) {
                 result = Result.ABORTED;
                 if (listener != null) {
-                    listener.getLogger().println(hudson.model.Messages.Run_BuildAborted());
+                    listener.getLogger().println(Messages.DeployNowRunAction_BuildAborted());
                 }
             } finally {
                 long end = System.currentTimeMillis();
