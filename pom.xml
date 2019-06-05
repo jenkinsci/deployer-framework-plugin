@@ -69,7 +69,6 @@
   <properties>
     <revision>1.2</revision>
     <changelist>-SNAPSHOT</changelist>
-    <maven.findbugs.failure.strict>false</maven.findbugs.failure.strict>
     <jenkins.version>2.138.4</jenkins.version>
     <java.level>8</java.level>
   </properties>
@@ -108,7 +107,7 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>credentials</artifactId>
-      <version>1.16.1</version>
+      <version>2.1.18</version>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
@@ -143,14 +142,10 @@
     <dependency>
       <groupId>org.jenkins-ci.main</groupId>
       <artifactId>maven-plugin</artifactId>
-      <version>2.5</version>
-      <scope>compile</scope>
+      <version>3.2</version>
       <exclusions>
         <exclusion>
-          <groupId>com.google.inject</groupId>
-          <artifactId>guice</artifactId>
-        </exclusion>
-        <exclusion>
+          <!-- outdated -->
           <groupId>commons-net</groupId>
           <artifactId>commons-net</artifactId>
         </exclusion>
@@ -181,20 +176,5 @@
     </dependency>
 
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
