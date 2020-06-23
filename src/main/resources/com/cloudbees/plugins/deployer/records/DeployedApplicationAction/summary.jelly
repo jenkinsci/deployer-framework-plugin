@@ -27,7 +27,7 @@
   <t:summary icon='${it.getImageOf("48x48")}'>
     <p>
       ${%DeployedTo(it.location.displayName)}
-      <a href="${it.location.locationURL}" tooltip="${it.location.description}">${it.location.locationURL}</a><br />
+      <a href="${it.location.locationURL}" tooltip="${h.xmlEscape(it.location.description)}">${it.location.locationURL}</a><br />
       <small>${it.location.description}</small>
     </p>
   </t:summary>

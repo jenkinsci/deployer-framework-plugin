@@ -29,7 +29,7 @@
   <j:set var="icon" value='${it.location.getImageOf("16x16")}'/>
   <p>
     ${%DeployedTo(it.location.displayName)}
-    <a href="${it.location.locationURL}" tooltip="${it.location.description}">
+    <a href="${it.location.locationURL}" tooltip="${h.xmlEscape(it.location.description)}">
       <img src="${icon.startsWith('/') ? resURL+icon : imagesURL+'/16x16/'+icon}" width="16" height="16" alt="" />${it.location.locationURL}</a>
   </p>
 </j:jelly>
