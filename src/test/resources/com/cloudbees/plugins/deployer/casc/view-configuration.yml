@@ -1,0 +1,8 @@
+jenkins:
+  views:
+    - list:
+        name: "view-with-deployNowColumn"
+        columns:
+          - "jobName"
+          - "status"
+          - "deployNowColumn"
