@@ -162,13 +162,6 @@
       <groupId>org.jenkins-ci.main</groupId>
       <artifactId>maven-plugin</artifactId>
       <version>3.6</version>
-      <exclusions>
-        <exclusion>
-          <!-- outdated -->
-          <groupId>commons-net</groupId>
-          <artifactId>commons-net</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <!-- test dependencies -->
