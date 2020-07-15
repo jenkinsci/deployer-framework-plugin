@@ -89,7 +89,7 @@ public class DeployNowComputer extends SlaveComputer {
     }
 
     @Override
-    public void doLaunchSlaveAgent(StaplerRequest req, StaplerResponse rsp) throws IOException, ServletException {
+    public void doLaunchSlaveAgent(StaplerRequest req, StaplerResponse rsp) throws IOException {
         rsp.sendError(SC_NOT_FOUND);
     }
 
