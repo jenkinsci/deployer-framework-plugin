@@ -34,7 +34,7 @@
   </parent>
 
   <artifactId>deployer-framework</artifactId>
-  <version>1.4.1</version>
+  <version>${revision}${changelist}</version>
   <packaging>hpi</packaging>
 
   <name>Deployer Framework Plugin</name>
@@ -63,11 +63,11 @@
   <scm>
     <connection>scm:git:git@github.com:jenkinsci/deployer-framework-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/deployer-framework-plugin.git</developerConnection>
-    <tag>deployer-framework-1.4.1</tag>
+    <tag>${scmTag}</tag>
   </scm>
 
   <properties>
-    <revision>1.5</revision>
+    <revision>1.4.2</revision>
     <changelist>-SNAPSHOT</changelist>
     <bom>2.222.x</bom>
     <jenkins.version>2.222.4</jenkins.version>
