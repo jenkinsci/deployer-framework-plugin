@@ -41,7 +41,7 @@
   <description>
     This plugin provides a framework for deploying applications.
   </description>
-  <url>https://wiki.jenkins-ci.org/display/JENKINS/Deployer+Framework+Plugin</url>
+  <url>https://github.com/jenkinsci/deployer-framework-plugin</url>
   <licenses>
     <license>
       <name>MIT</name>
