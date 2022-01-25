@@ -173,7 +173,7 @@ public class PromotionCapabilitiesResolver extends CapabilitiesResolver {
         public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener)
                 throws InterruptedException, IOException {
             if (build instanceof Promotion) {
-                build = ((Promotion) build).getTarget();
+                build = ((Promotion) build).getTargetBuild();
             }
             try {
                 for (DeployHost<? extends DeployHost<?, ?>, ? extends DeployTarget<?>> set : getHosts()) {
