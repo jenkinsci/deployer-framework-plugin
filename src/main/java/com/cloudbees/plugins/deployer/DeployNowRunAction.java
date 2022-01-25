@@ -381,7 +381,6 @@ public class DeployNowRunAction implements RunAction {
      * It will use a gzip-compressed log file (log.gz) if that exists.
      *
      * @return an input stream from the log file, or null if none exists
-     * @throws IOException
      */
     public InputStream getLogInputStream() throws IOException {
         File logFile = getLogFile();
@@ -402,7 +401,7 @@ public class DeployNowRunAction implements RunAction {
     }
 
     /**
-     * Used from <tt>console.jelly</tt> to write annotated log to the given output.
+     * Used from <code>console.jelly</code> to write annotated log to the given output.
      *
      */
     public void writeLogTo(long offset, XMLOutput out) throws IOException {
