@@ -114,11 +114,6 @@
     <!-- regular dependencies -->
 
     <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>icu4j</artifactId>
       <version>70.1</version>
@@ -126,6 +121,11 @@
 
     <!-- plugin dependencies -->
 
+    <dependency>
+      <groupId>io.jenkins.plugins</groupId>
+      <artifactId>commons-lang-api</artifactId>
+      <version>2.6.0</version>
+    </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>credentials</artifactId>
