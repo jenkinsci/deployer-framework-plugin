@@ -55,9 +55,8 @@
             <td class="setting-help">
               <a href="#" class="help-button"
                  helpURL="${rootURL}/plugin/deployer-framework/help-saveConfig.html">
-                <img src="${imagesURL}/16x16/help.png"
-                     alt="Help for feature: ${%Use this configuration as the default Deploy Now configuration for this project}"
-                     height="16" width="16"/>
+                <l:icon class="icon-help icon-sm"
+                     alt="Help for feature: ${%Use this configuration as the default Deploy Now configuration for this project}"/>
               </a>
             </td>
           </tr>
@@ -73,8 +72,7 @@
             <td class="setting-help">
               <a href="#" class="help-button"
                  helpURL="${rootURL}/plugin/deployer-framework/help-oneClickDeploy.html">
-                <img src="${imagesURL}/16x16/help.png" alt="Help for feature: ${%Enable one-click deployment}"
-                     height="16" width="16"/>
+                <l:icon class="icon-help icon-sm" alt="Help for feature: ${%Enable one-click deployment}"/>
               </a>
             </td>
           </tr>
