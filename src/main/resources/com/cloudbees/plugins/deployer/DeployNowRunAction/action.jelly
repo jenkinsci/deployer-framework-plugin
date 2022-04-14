@@ -28,7 +28,7 @@
     <l:task icon="${h.getIconFilePath(action)}" title="${action.displayName}"
             href="${h.getActionUrl(it.url,action)}">
       <j:if test="${action.hasOutput}">
-        <l:task icon="images/24x24/terminal.png"
+        <l:task icon="icon-terminal icon-md"
                 href="${h.getActionUrl(it.url,action)}/deploy" title="${%Output}"/>
       </j:if>
     </l:task>
