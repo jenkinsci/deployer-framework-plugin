@@ -35,7 +35,7 @@ import hudson.model.Item;
 import net.jcip.annotations.Immutable;
 import org.acegisecurity.Authentication;
 
-import javax.annotation.CheckForNull;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
