@@ -30,6 +30,7 @@ import hudson.Extension;
 import hudson.FilePath;
 import hudson.RelativePath;
 import hudson.model.AbstractProject;
+import hudson.model.Item;
 import hudson.model.Job;
 import hudson.model.Run;
 import hudson.util.FormValidation;
@@ -89,6 +90,7 @@ public class WildcardPathDeploySource extends DeploySource {
         File result = null;
         if (run.getArtifactsDir().isDirectory()) {
             FileSet fileSet = new FileSet();
+            fileSet.setFollowSymlinks(false);
             fileSet.setProject(new Project());
             fileSet.setDir(run.getArtifactsDir());
             fileSet.setIncludes(getFilePattern());
@@ -200,6 +202,7 @@ public class WildcardPathDeploySource extends DeploySource {
             if (Boolean.valueOf(fromWorkspace)) {
                 Job job = findJob();
                 if (job != null && job instanceof AbstractProject) {
+                    job.checkPermission(Item.WORKSPACE);
                     FilePath someWorkspace = ((AbstractProject) job).getSomeWorkspace();
                     if (someWorkspace == null) {
                         return FormValidation.warning("The workspace is empty. Unable to validate '" + value + "'.");
@@ -209,6 +212,9 @@ public class WildcardPathDeploySource extends DeploySource {
                         return FormValidation.warning("Multiple files in the workspace match '" + value + "'");
                     }
                     if (filePaths.length == 1) {
+                        if (!FilePathValidator.isDescendant(filePaths[0], someWorkspace)) {
+                            return FormValidation.error("Directory path '" + value + "' is not contained within the workspace for " + job.getDisplayName());
+                        }
                         return delegatePathValidationToTarget(value, targetDescriptorId, filePaths[0]);
                     }
                 }
@@ -219,6 +225,7 @@ public class WildcardPathDeploySource extends DeploySource {
                     return FormValidation.error("There are no archived artifacts");
                 }
                 FileSet fileSet = new FileSet();
+                fileSet.setFollowSymlinks(false);
                 fileSet.setProject(new Project());
                 fileSet.setDir(run.getArtifactsDir());
                 fileSet.setIncludes(value);

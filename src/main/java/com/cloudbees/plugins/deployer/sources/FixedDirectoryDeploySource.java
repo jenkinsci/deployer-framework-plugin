@@ -31,6 +31,7 @@ import hudson.Extension;
 import hudson.FilePath;
 import hudson.RelativePath;
 import hudson.model.AbstractProject;
+import hudson.model.Item;
 import hudson.model.Job;
 import hudson.model.Run;
 import hudson.util.FormValidation;
@@ -197,11 +198,14 @@ public class FixedDirectoryDeploySource extends DeploySource {
                                                    @QueryParameter final String targetDescriptorId,
                                                    @QueryParameter final String value)
                 throws IOException, ServletException, InterruptedException {
+            Job job = findJob();
+            if (job != null) {
+                job.checkPermission(Item.WORKSPACE);
+            }
             if (StringUtils.isEmpty(value)) {
                 return FormValidation.warning("You really should specify a directory, otherwise '.' is assumed");
             }
             if (Boolean.valueOf(fromWorkspace)) {
-                Job job = findJob();
                 if (job != null && job instanceof AbstractProject) {
                     FilePath someWorkspace = ((AbstractProject) job).getSomeWorkspace();
                     if (someWorkspace == null) {
@@ -209,6 +213,10 @@ public class FixedDirectoryDeploySource extends DeploySource {
                     }
 
                     FilePath dirPath = someWorkspace.child(value);
+
+                    if (!FilePathValidator.isDescendant(dirPath, someWorkspace)) {
+                        return FormValidation.error("Directory path '" + value + "' is not contained within the workspace for " + job.getDisplayName());
+                    }
                     if (dirPath.exists()) {
                         if (dirPath.isDirectory()) {
                             return delegatePathValidationToTarget(value, targetDescriptorId, dirPath);

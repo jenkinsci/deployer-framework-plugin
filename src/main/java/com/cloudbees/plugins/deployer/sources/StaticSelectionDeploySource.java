@@ -84,11 +84,19 @@ public class StaticSelectionDeploySource extends DeploySource {
     public File getApplicationFile(@NonNull Run run) {
         if (run.getArtifactsDir().isDirectory()) {
             File file = new File(run.getArtifactsDir(), filePath);
+            try {
+                if (!FilePathValidator.isDescendant(new FilePath(file), new FilePath(run.getArtifactsDir()))) {
+                    throw new IllegalArgumentException("Directory path '" + filePath + "' is not contained within the artifacts directory for " + run.getDisplayName());
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return file.exists() ? file : null;
         } else {
             return null;
         }
     }
+
 
     /**
      * {@inheritDoc}
@@ -178,6 +186,11 @@ public class StaticSelectionDeploySource extends DeploySource {
                             "No artifacts were archived in the last successful run, unable to validate '" + value
                                     + "'");
                 }
+                FilePath artifactsDir = new FilePath(run.getArtifactsDir());
+                FilePath childDir = new FilePath(artifactsDir, value);
+                if (!FilePathValidator.isDescendant(childDir, artifactsDir)) {
+                    return FormValidation.error("Directory path '" + value + "' is not contained within the artifacts directory for " + run.getFullDisplayName());
+                }
                 if (new File(run.getArtifactsDir(), value).isFile()) {
                     return FormValidation.ok();
                 }
@@ -195,6 +208,7 @@ public class StaticSelectionDeploySource extends DeploySource {
 
             if (run != null) {
                 FileSet fileSet = new FileSet();
+                fileSet.setFollowSymlinks(false);
                 fileSet.setProject(new Project());
                 fileSet.setDir(run.getArtifactsDir());
                 fileSet.setIncludes("**/*.war");
