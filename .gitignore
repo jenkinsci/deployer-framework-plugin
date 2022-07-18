@@ -18,3 +18,5 @@ build/
 
 # locally stored credentials
 test-keys.txt
+
+.DS_Store

@@ -359,6 +359,7 @@ public class DeployNowRunAction implements RunAction {
      * Sends out the raw console output.
      */
     public void doDeployText(StaplerRequest req, StaplerResponse rsp) throws IOException {
+        owner.getParent().checkPermission(DEPLOY);
         rsp.setContentType("text/plain;charset=UTF-8");
         // Prevent jelly from flushing stream so Content-Length header can be added afterwards
         FlushProofOutputStream out = new FlushProofOutputStream(rsp.getCompressedOutputStream(req));
