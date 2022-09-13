@@ -29,7 +29,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>4.33</version>
+    <version>4.46</version>
     <relativePath />
   </parent>
 
@@ -38,9 +38,6 @@
   <packaging>hpi</packaging>
 
   <name>Deployer Framework Plugin</name>
-  <description>
-    This plugin provides a framework for deploying applications.
-  </description>
   <url>https://github.com/jenkinsci/deployer-framework-plugin</url>
   <licenses>
     <license>
