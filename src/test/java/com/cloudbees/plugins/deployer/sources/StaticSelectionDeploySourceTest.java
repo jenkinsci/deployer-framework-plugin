@@ -9,7 +9,7 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.nio.file.Files;
 
-import com.gargoylesoftware.htmlunit.Page;
+import org.htmlunit.Page;
 import hudson.model.FreeStyleProject;
 import hudson.model.Item;
 import hudson.model.Result;
