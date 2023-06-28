@@ -145,7 +145,7 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>javadoc</artifactId>
-      <version>1.6</version>
+      <version>226.v71211feb_e7e9</version>
       <optional>true</optional>
     </dependency>
     <dependency>
