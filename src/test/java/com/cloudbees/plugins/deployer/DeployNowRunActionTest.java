@@ -1,6 +1,6 @@
 package com.cloudbees.plugins.deployer;
 
-import com.gargoylesoftware.htmlunit.Page;
+import org.htmlunit.Page;
 import hudson.model.FreeStyleProject;
 import hudson.model.Item;
 import hudson.model.Result;
